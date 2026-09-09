@@ -1,0 +1,26 @@
+{
+  "name": "corporate-crm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Корпоративная информационно-аналитическая система учёта клиентов: PostgreSQL + FastAPI + React",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1",
+    "db:setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pg-setup.ps1",
+    "db:migrate": "cd backend && .venv\\Scripts\\python.exe -m alembic upgrade head",
+    "db:seed": "cd backend && .venv\\Scripts\\python.exe -m app.seed --demo",
+    "dev": "concurrently -k -n api,web -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "scripts\\run-backend.cmd",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "preview": "npm run preview --workspace frontend",
+    "test": "scripts\\test-backend.cmd",
+    "lint": "cd backend && .venv\\Scripts\\python.exe -m ruff check .",
+    "typecheck": "npm run typecheck --workspace frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
